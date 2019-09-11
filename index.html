@@ -16,16 +16,17 @@
 
 	<form>
 		<ul>
-			<li>
-				<label for="amount">Starting Amount($)*:</label>
+			<li class="input-list">
+				<label for="amount">Starting Amount:</label>
+				<span>How much $ are you starting with?</span>
 				<input type="number" name="amount" value="1000">
 			</li>
 			<li>
-				<label for="interest">Interest Rate(%)*:</label>
+				<label for="interest">Interest Rate:</label>
 				<input type="number" name="interest" value="2">
 			</li>
 			<li>
-				<label for="contribution">Annual Contribution($):</label>
+				<label for="contribution">Annual Contribution:</label>
 				<input type="number" name="contribution" value="0">
 			</li>
 			<li>
@@ -37,9 +38,22 @@
 	</form>
 	<section>
 		<h2>Results</h2>
-		<p>Starting amount: <strong class="starting-val">$1000</strong></p>
-		<p>Contribution total: <strong class="contribution-val">$0.00</strong></p>
-		<p>Final Amount in <strong class="duration-val">10</strong> years: <strong class="final-val">$1218.99</strong></p>
+		<p>
+			Starting amount: <strong class="starting-val">$1000</strong>
+			<div class="starting-bar"></div>
+		</p>
+		<p>
+			Contribution total: <strong class="contribution-val">$0.00</strong>
+			<div class="contribution-bar"></div>
+		</p>
+		<p>
+			Return total: <strong class="return-val">$0.00</strong>
+			<div class="return-bar"></div>
+		</p>
+		<p>
+			Final Amount in <strong class="duration-val">10</strong> years: <strong class="final-val">$1218.99</strong>
+			<div class="final-bar"></div>
+		</p>
 	</section>
 	<script type="text/javascript" src="calculator.js"></script>
 </body>
