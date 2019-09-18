@@ -37,11 +37,7 @@ const formatValue = (value, type) => {
 }
 
 // Display Results
-const displayResults = (amount, duration, totalContribution, totalReturn, finalBalance) => {
-	startingVal[0].innerHTML = amount;
-	contributionVal[0].innerHTML = totalContribution;
-	durationVal[0].innerHTML = duration;
-	returnVal[0].innerHTML = totalReturn;
+const displayResults = (finalBalance) => {
 	finalVal[0].innerHTML = finalBalance;
 }
 
@@ -50,18 +46,37 @@ const getRatio = (value, max) => {
     return 100 * (value/max);
 }
 
-// Render Visuals
-const renderVisuals = (amount, totalContribution, totalReturn, finalBalance) => {
-	const startingBar = document.querySelectorAll('.starting-bar');
-	const contributionBar = document.querySelectorAll('.contribution-bar');
-	const returnBar = document.querySelectorAll('.return-bar');
-	const finalBar = document.querySelectorAll('.final-bar');
+var pieCanvas = document.getElementById('piechart').getContext('2d');
+var pieChart = new Chart(pieCanvas, {
+	// The type of chart we want to create
+	type: 'pie',
 
-	startingBar[0].style.width = getRatio(amount, finalBalance) + '%';
-	contributionBar[0].style.width = getRatio(totalContribution, finalBalance) + '%';
-	returnBar[0].style.width = getRatio(totalReturn, finalBalance) + '%';
-	finalBar[0].style.width = getRatio(finalBalance, finalBalance) + '%';
+	// The data for our dataset
+	data : {
+		datasets: [{
+			data: [10, 20, 30],
+			backgroundColor: ['#008FCC','#008494','#5EBF86']
+		}],
+
+		// These labels appear in the legend and in the tooltips when hovering different arcs
+		labels: [
+		'Starting Amount',
+		'Contribution Total',
+		'Final Balance'
+		]
+	},
+
+	// Configuration options go here
+	options: {
+	}
+});
+
+
+const updatePieChart = (amount, totalContribution, totalReturn) => {
+	pieChart.data.datasets[0].data = [+amount, +totalContribution, +totalReturn];
+	pieChart.update();
 }
+
 
 // Calculate
 const calculate = () => {
@@ -72,21 +87,19 @@ const calculate = () => {
 	let rate = interest/100;
 	let finalBalance;
 	let totalContribution;
-	let totalReturn;
+
 
 	// const
 	if (rate) {
 		finalBalance = amount * Math.pow(1 + rate, duration) + contribution * ( (Math.pow(1 + rate, duration) - 1) / rate );
 		totalContribution = contribution * duration;
-		totalReturn = finalBalance - amount - totalContribution;
 	} else {
 		totalContribution = contribution * duration;
 		finalBalance = +amount + totalContribution;
-		totalReturn = finalBalance - amount - totalContribution;
 	}
 
-	renderVisuals(amount, totalContribution, totalReturn, finalBalance);
-	displayResults(formatValue(amount, '$'), duration, formatValue(totalContribution, '$'), formatValue(totalReturn, '$'), formatValue(finalBalance, '$'));
+	updatePieChart(amount, totalContribution, finalBalance);
+	displayResults(formatValue(finalBalance, '$'));
 }
 
 
